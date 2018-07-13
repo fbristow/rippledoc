@@ -373,7 +373,9 @@ def pandoc_process_file(md_fnm):
     io.open('/tmp/after.html' , 'w').write(html_aft)
 
     pandoc_cmd = ['pandoc', md_fnm]
-    pandoc_cmd.extend(['-f', 'markdown+smart', '-s', '--toc', '--mathjax'])
+    pandoc_cmd.extend(['-f', 'markdown+smart', '-s', '--mathjax'])
+    if md_fnm != './index.md':
+        pandoc_cmd.append('--toc')
     depth = md_fnm.count('/') - 1
     pandoc_cmd.append('--css=' + '../' * depth + 'styles.css')
     pandoc_cmd.extend(['-B', '/tmp/before.html', '-A', '/tmp/after.html'])
