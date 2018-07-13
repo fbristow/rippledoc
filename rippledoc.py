@@ -19,7 +19,7 @@
 
 import os, os.path, sys, subprocess, io, re
 
-VERSION = "2018-07-11"
+VERSION = "2018-07-12"
 
 project_name = None
 copyright_info = None

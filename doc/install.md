@@ -13,6 +13,7 @@ Download and Install
 ====================
 
 To install Rippledoc, you can either clone the repo, or else download
-and save [the latest rippledoc.py file](#)
-to somewhere in your $PATH (such as `~/bin` or `/usr/local/bin`) and
-make sure it's is executable (`chmod +x rippledoc.py`).
+and save [the latest rippledoc.py
+file](https://gitlab.com/uvtc/rippledoc/raw/master/rippledoc.py) to
+somewhere in your $PATH (such as `~/bin` or `/usr/local/bin`) and make
+sure it's is executable (`chmod +x rippledoc.py`).
