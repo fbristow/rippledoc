@@ -82,5 +82,5 @@ simply regenerates all files every time.
 
 **"I don't like Rippledoc's default output style. Can I change it?"**
 
-Certainly. When you first run Rippledoc, it creates default styles.css
-file which you can then modify.
+Certainly. When you first run Rippledoc it creates a default
+styles.css file which you can then modify.
