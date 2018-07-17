@@ -373,7 +373,9 @@ def pandoc_process_file(md_fnm):
     io.open('/tmp/after.html' , 'w').write(html_aft)
 
     pandoc_cmd = ['pandoc', md_fnm]
-    pandoc_cmd.extend(['-f', 'markdown+smart', '-s', '--mathjax'])
+    pandoc_cmd.extend(['-f', 'markdown+smart', '-s'])
+    pandoc_cmd.append(
+        '--mathjax=https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-AMS_CHTML-full')
     if md_fnm != './index.md':
         pandoc_cmd.append('--toc')
     depth = md_fnm.count('/') - 1
