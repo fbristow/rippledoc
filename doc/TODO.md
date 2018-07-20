@@ -6,8 +6,6 @@
 
   * Title in browser window & bookmark should include project name
 
-  * index.md is special and should not be processed with --toc
-
   * Add options:
 
         --clean      # remove all generated .html, toc.conf, toc.md, and styles files

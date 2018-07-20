@@ -38,10 +38,10 @@ Rippledoc aims to remedy the situation. Here's how:
 
  #. Your docs are formatted in Markdown (with some Pandoc
     enhancements). Pretty much everyone already knows Markdown (it's
-    used on Reddit, Stackoverflow, GitLab, GitHub, in many README's
-    and blogs, etc.). Potential contributors will not have to learn
-    any new markup formats or complicated tools to contribute to your
-    docs.
+    used on Reddit, Stackoverflow, GitLab, GitHub, Discourse forums,
+    in many README's and blogs, etc.). Potential contributors will not
+    have to learn any new markup formats or complicated tools to
+    contribute to your docs.
 
     Another benefit of using Markdown is that it looks great as plain
     text in your editor. Easy to read, easy to write, easy syntax to
