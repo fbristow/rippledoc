@@ -19,16 +19,18 @@
 
 import os, os.path, sys, subprocess, io, re
 
-VERSION = "2018-07-12"
+VERSION = "2018-07-20"
 
 project_name = None
 copyright_info = None
 
 dirs_to_skip = []
 fnm_to_doc_title = {}
-master_toc_list_items = []
 
-# Needed for prev/next links. Does not include dirs.
+# Needed for ToC in nav box.
+full_ordered_list_of_paths = []
+
+# Needed for for prev/next links.
 full_ordered_list_of_fnms = []
 
 def main():
@@ -111,11 +113,11 @@ def main():
     process_dirs_create_toc_conf_files()
 
     print("Reading in all toc.conf data...")
-    populate_full_ordered_list_of_fnms('.')
+    populate_full_ordered_list_of_paths('.')
 
-    print("Generating toc.md files...")
-    create_master_toc_md_file()
-    create_other_toc_md_files()
+    global full_ordered_list_of_fnms
+    full_ordered_list_of_fnms = \
+        [pth for pth in full_ordered_list_of_paths if pth.endswith(".md")]
 
     print("Transmogrifying .md files into html files...")
     process_all_md_files()
@@ -124,9 +126,9 @@ def main():
 
 
 # ================================================================
-# Multi-Line Strip Left. Strips off number of spaces of
-# the first line of `s` (which is a multi-line string).
 def mlsl(s):
+    """Multi-Line Strip Left. Strips off number of spaces of
+    the first line of `s` (which is a multi-line string)."""
     lines = s.splitlines()
     spaces_to_remove = len(lines[0]) - len(lines[0].lstrip())
     out = []
@@ -186,9 +188,9 @@ def check_file_and_dir_names():
 
 
 def populate_dirs_to_skip(path):
+    """If there are any md files here or below, we need to dig deeper
+    and keep looking for subdirs that may have no md files below them."""
     if is_any_mds_here_or_below(path):
-        # If there are, we need to dig deeper and keep looking
-        # for subdirs that may have no md files below them.
         for p in list_dirs_here(path):
             populate_dirs_to_skip(p)
     else:
@@ -203,8 +205,8 @@ def is_any_mds_here_or_below(path):
     return False
 
 
-# Returns full path names.
 def list_dirs_here(pth):
+    """Returns full path names."""
     res = []
     for p in os.listdir(pth):
         full_path = os.path.join(pth, p)
@@ -276,74 +278,30 @@ def process_dirs_create_toc_conf_files():
 
 
 def is_at_or_under_skipped_dir(tgt):
-    # Checks if the target dir `tgt` is the same as or under any
-    # of the dirs in `dirs_to_skip`.
+    """Checks if the target dir `tgt` is the same as or under any
+    of the dirs in `dirs_to_skip`."""
     for d in dirs_to_skip:
         if d in tgt:
             return True
     return False
 
 
-def populate_full_ordered_list_of_fnms(path):
-    # `path` is a directory name, typically started off like
-    # `populate_full_ordered_list_of_fnms('.')`. We call this function
-    # after all toc.conf files have been created/checked, so we assume
-    # all paths passed in are good ones (with a toc.conf file in them).
+def populate_full_ordered_list_of_paths(path):
+    """`path` is a directory name, typically started off like
+    `populate_full_ordered_list_of_fnms('.')`. We call this function
+    after all toc.conf files have been created/checked, so we assume
+    `path` is a good one (with a toc.conf file in it)."""
     if path == '.':
-        full_ordered_list_of_fnms.append('./index.md')
+        full_ordered_list_of_paths.append('./index.md')
     with io.open(os.path.join(path, 'toc.conf')) as f:
         for line in f:
             line = line.strip()
             if len(line) == 0:
                 continue
             line = os.path.join(path, line)
-            if line.endswith('.md'):
-                full_ordered_list_of_fnms.append(line)
-            else:
-                populate_full_ordered_list_of_fnms(line)
-
-
-def create_master_toc_md_file():
-    populate_master_toc_list_items('.')
-    with io.open('toc.md', 'w') as f:
-        f.write('% Table of Contents\n\n')
-        f.write('\n'.join(master_toc_list_items))
-        f.write('\n')
-
-
-def populate_master_toc_list_items(d):
-    toc_fnm = os.path.join(d, 'toc.conf')
-    depth = toc_fnm.count('/') - 1
-    indent = '    ' * depth
-    with io.open(toc_fnm) as f:
-        for line in f:
-            line = line.strip()
-            if line.endswith('.md'):
-                md_path = os.path.join(d, line)
-                title = fnm_to_doc_title[md_path]
-                ht_path = md_path[:-2] + 'html'
-                master_toc_list_items.append(f"""{indent}  * [{title}]({ht_path})""")
-            else:
-                d_path = os.path.join(d, line)
-                ht_path = os.path.join(d_path, 'toc.html')
-                master_toc_list_items.append(f"""{indent}  * [{line}/]({ht_path})""")
-                populate_master_toc_list_items(d_path)
-
-
-def create_other_toc_md_files():
-    for (this_dir, dirs_here, files_here) in os.walk('.'):
-        if 'toc.conf' in files_here and this_dir != '.':
-            fnms = io.open(os.path.join(this_dir, 'toc.conf')).read().splitlines()
-            with io.open(os.path.join(this_dir, 'toc.md'), 'w') as f:
-                f.write(f'% Contents of {this_dir}\n\n')
-                for fnm in fnms:
-                    if fnm.endswith('.md'):
-                        html_fnm = fnm[:-2] + 'html'
-                        doc_title = fnm_to_doc_title[os.path.join(this_dir, fnm)]
-                        f.write('  * [' + doc_title + '](' + html_fnm + ')\n')
-                    else:
-                        f.write('  * [' + fnm + '/](' + fnm + '/toc.html)\n')
-                f.write('\n')
+            full_ordered_list_of_paths.append(line)
+            if not line.endswith('.md'):
+                populate_full_ordered_list_of_paths(line)
 
 
 def process_all_md_files():
@@ -361,6 +319,9 @@ def pandoc_process_file(md_fnm):
 
     html_bef = html_before.replace('{{path-to-index}}', '../' * depth + 'index.html')
     html_bef = html_bef.replace('{{project-name}}', project_name)
+
+    nav_box_content = get_nav_box_content(md_fnm)
+    html_bef = html_bef.replace("{{nav-box-content}}", nav_box_content)
 
     nav_bar_content = get_nav_bar_content(md_fnm)
     html_bef = html_bef.replace('{{nav-bar-content}}', nav_bar_content)
@@ -385,12 +346,53 @@ def pandoc_process_file(md_fnm):
     subprocess.check_call(pandoc_cmd)
 
 
+def get_nav_box_content(md_fnm):
+    """Produces a full ToC, flush with links except for the entry for
+    `md_fnm`."""
+    nav_toc_md_fnm =   "/tmp/nav-toc.md"
+    nav_toc_html_fnm = "/tmp/nav-toc.html"
+
+    with io.open(nav_toc_md_fnm, "w") as f:
+        f.write("Contents:\n\n")
+        f.write("\n".join(make_toc_md_list_for(md_fnm)))
+        f.write("\n")
+
+    pandoc_cmd = ["pandoc", "/tmp/nav-toc.md", "-o", nav_toc_html_fnm]
+    subprocess.check_call(pandoc_cmd)
+    content = io.open(nav_toc_html_fnm).read()
+    return content
+
+
+def make_toc_md_list_for(md_fnm):
+    res = []
+    for fnm in full_ordered_list_of_paths:
+        if fnm == "./index.md":
+            continue
+
+        depth = fnm.count("/") - 1
+        indent = "    " * depth
+        is_a_dir = not fnm.endswith(".md")
+
+        if is_a_dir:
+            title = os.path.basename(fnm) + "/"
+        else:
+            title = fnm_to_doc_title[fnm]
+            html_fnm = fnm[:-2] + "html"
+            html_link = get_rel_path_from_to(md_fnm, html_fnm)
+
+        if fnm == md_fnm:
+            res.append(f"{indent}  * __{title}__")
+        else:
+            if is_a_dir:
+                res.append(f"{indent}  * {title}")
+            else:
+                res.append(f"{indent}  * [{title}]({html_link})")
+    return res
+
+
 def get_nav_bar_content(md_fnm):
     pr, nx = make_prev_next_links(md_fnm)
-    toc = make_master_toc_link(md_fnm)
-    ht_path = make_linked_html_path(md_fnm)
-    space = '&nbsp;&nbsp;&nbsp;'
-    nav_bar = f"""{pr} | {nx} {space} {toc} {space} {ht_path}"""
+    nav_bar = f"""{pr} | {nx}"""
     return nav_bar
 
 
@@ -413,36 +415,6 @@ def make_prev_next_links(md_fnm):
     return prev_link, next_link
 
 
-def make_master_toc_link(md_fnm):
-    depth = md_fnm.count('/') - 1
-    toc_link = None
-    toc_string = 'Table of Contents'
-    if md_fnm == './toc.md':
-        toc_link = toc_string
-    else:
-        toc_link = f"""<a href="{'../' * depth + 'toc.html'}">{toc_string}</a>"""
-    return toc_link
-
-
-def make_linked_html_path(md_fnm):
-    idx = None
-    depth = md_fnm.count('/') - 1 # the depth we're at right now for this page
-    html_fnm = md_fnm[:-2] + 'html'
-    pieces = html_fnm.split('/')[1:] # drop the '.' for now
-    tmp_piece = pieces.pop()  # the relative filename at the end
-    res = []
-    pieces.reverse()
-    for i, dr in enumerate(pieces):
-        if tmp_piece == 'toc.html' and i == 0:
-            res.append(dr)
-        else:
-            res.append(f"""<a href="{'../' * i + 'toc.html'}">{dr}</a>""")
-    res.append('.')
-    res.reverse()
-    res.append(tmp_piece)
-    return 'Current page: ' + '/'.join(res)
-
-
 def get_rel_path_from_to(fr, to):
     if os.path.dirname(fr) == os.path.dirname(to):
         return os.path.basename(to)
@@ -458,20 +430,44 @@ html_before = """
   <a href="{{path-to-index}}">{{project-name}}</a>
 </div>
 
+<div id="trunk-box">
+
+<div id="nav-box">
+{{nav-box-content}}
+</div>
+
+<div id="article-box">
+
 <div id="header-nav-bar">
 {{nav-bar-content}}
 </div>
 
-<div id="content">
-
+<div id="article-content">
 """
 
+# The boxes go like:
+#
+# body
+#     #main-outer-box
+#         #my-header
+#         #trunk-box
+#             #nav-box
+#             #article-box
+#                 #header-nav-bar
+#                 #article-content
+#                 #footer-nav-bar
+#         #my-footer
+
 html_after = """
-</div> <!-- content -->
+</div> <!-- article-content -->
 
 <div id="footer-nav-bar">
 {{nav-bar-content}}
 </div>
+
+</div> <!-- article-box -->
+
+</div> <!-- trunk-box -->
 
 <div id="my-footer">
 {{copyright-info}}<br/>
@@ -507,9 +503,31 @@ body {
     text-decoration: none;
 }
 
+#trunk-box {
+    /* ... */
+}
+
+#nav-box {
+    float: left;
+    width: 280px;
+    padding: 10px;
+}
+
+#article-box {
+    margin-left: 320px;
+    width: 800px;
+    /*padding: 20px;*/
+    /*background-color: #fff;*/
+    /*border: 1px solid #ddd;*/
+}
+
 #header-nav-bar, #footer-nav-bar {
     background-color: #eee;
     font-size: small;
+}
+
+#article-content {
+    /*padding: 20px;*/
 }
 
 /* Pandoc automatically puts title, subtitle, author, and date
@@ -529,13 +547,6 @@ nav#TOC {
 
 #footer-nav-bar {
     padding: 6px 6px 10px 10px;
-}
-
-#content {
-    padding: 20px;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
 }
 
 caption {

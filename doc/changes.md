@@ -1,6 +1,12 @@
 % Changes
 % John Gabriele
 
+# v2018-07-20
+
+  * Put it better side nav area. Removed all the sub-ToC files, which
+    also allowed removing clutter from the header/footer nav bars.
+
+
 # v2018-07-12
 
   * Rippledoc rewritten in Python. Started new changelog.
