@@ -5,8 +5,7 @@
 **A particularly easy-to-use doc processing tool.**
 
 Rippledoc is a command-line program which generates easily-navigable
-html from a bunch of [Markdown](http://commonmark.org/)-formatted text
-files. That is, it turns:
+html from a bunch of Markdown-formatted text files. That is, it turns:
 
 ~~~
 doc/
