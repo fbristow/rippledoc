@@ -53,7 +53,6 @@ def main():
         directory, delete:
 
           * all toc.conf files
-          * all toc.md files
           * the styles.css and _copyright files
           * all generated .html files
 
@@ -511,6 +510,7 @@ body {
     float: left;
     width: 280px;
     padding: 10px;
+    font-size: small;
 }
 
 #article-box {
