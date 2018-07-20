@@ -1,8 +1,9 @@
 % Quick Markdown Example
 % John Gabriele
 
-Markdown is probably the easiest markup format to get started
-using. The specific flavor of Markdown that Rippledoc uses is
+Markdown is probably the most commonly-used plain text markup used
+online, and is easy to get started with. The specific flavor of
+Markdown that Rippledoc uses is
 [Pandoc-Markdown](http://pandoc.org/MANUAL.html#pandocs-markdown).
 Here's a quick example of some pandoc-markdown -formatted text: first
 as the source you'd put into your file, then rendered as html.

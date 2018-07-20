@@ -516,9 +516,6 @@ body {
 #article-box {
     margin-left: 320px;
     width: 800px;
-    /*padding: 20px;*/
-    /*background-color: #fff;*/
-    /*border: 1px solid #ddd;*/
 }
 
 #header-nav-bar, #footer-nav-bar {

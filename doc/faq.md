@@ -12,9 +12,10 @@ See the [rationale page](rationale.html).
 The main focus of Rippledoc is to be a very *easy* way to create your
 docs and make them available, no manual required. From "zero" to
 "docs" in no time flat. Markdown is, IMO, the easiest of the markup
-formats to write, to read, and to remember; and
+formats to read, and also very easy to write and to remember; and
 [pandoc-markdown](http://pandoc.org/MANUAL.html#pandocs-markdown)
-tastefully adds what's missing from original Markdown.
+tastefully adds what's missing from original Markdown and/or
+[CommonMark](http://commonmark.org/).
 
 
 
@@ -34,14 +35,15 @@ Rippledoc is a fairly simple program which happens to be written in
 Python but which could easily be rewritten in any number of other
 languages.
 
-Under the hood, Rippledoc uses [Pandoc](http://johnmacfarlane.net/pandoc/)
-to do the heavy lifting. Although Pandoc can translate between various
-markup formats, Rippledoc is only using it to convert Markdown to
-HTML. There are many other Markdown implementations that you could use
-if you wanted to (a bunch are listed at [the Markdown
-wiki](http://xbeta.org/wiki/show/Markdown) and the [Markdown Wikipedia
-page](http://en.wikipedia.org/wiki/Markdown)), though they might not
-have the excellent enhancements that Pandoc provides.
+Under the hood, Rippledoc uses
+[Pandoc](http://johnmacfarlane.net/pandoc/) to do the heavy
+lifting. Although Pandoc can translate between various markup formats,
+Rippledoc is only using it to convert Markdown to HTML. There are many
+other Markdown implementations that you could use if you wanted to
+(most languages tend to have at least one implementation), though they
+might not have the excellent enhancements that Pandoc provides. See
+[CommonMark](http://commonmark.org/) for more info on Markdown and its
+various and sundry implementations.
 
 
 
@@ -50,7 +52,7 @@ have the excellent enhancements that Pandoc provides.
 Because Pandoc:
 
   * supports tables, definition lists, line blocks, footnotes, and $\LaTeX$ math
-  * supports syntax highlighting
+  * supports code block syntax highlighting
   * is high-quality and reliable
   * is actively maintained
   * supports the command-line options that Rippledoc requires
@@ -58,14 +60,14 @@ Because Pandoc:
   * is easy to install on GNU/Linux
 
 
-**"Bah, my project is hosted on gitlab (or similar); why not just let
+**"Bah, my project is hosted on GitLab (or similar); why not just let
 users read the docs there, since gitlab automatically renders .md
 files as html?"**
 
 Mainly because:
 
-  * Pandoc supports a number of very useful extensions which gitlab's
-    markdown processor may not (see previous FAQ item).
+  * Pandoc (and thus Rippledoc) supports a number of very useful extensions
+    which GitLab's markdown processor may not (see previous FAQ item).
   * Rippledoc provides excellent navigation links, and lets you order
     your docs as well.
   * With Rippledoc you can customize styling.

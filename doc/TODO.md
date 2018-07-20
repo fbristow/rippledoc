@@ -8,7 +8,7 @@
 
   * Add options:
 
-        --clean      # remove all generated .html, toc.conf, toc.md, and styles files
+        --clean      # remove all generated .html, toc.conf, and styles.css files
         --modified   # shows which md files have been modified and need processing
         --readme-is-index {title}   # for when index.md file is not present,
                                     # but ../README.md is.

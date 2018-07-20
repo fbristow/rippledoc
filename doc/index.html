@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="John Gabriele" />
+  <title>Rippledoc</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="main-outer-box">
+
+<div id="my-header">
+  <a href="index.html">Rippledoc</a>
+</div>
+
+<div id="trunk-box">
+
+<div id="nav-box">
+<p>Contents:</p>
+<ul>
+<li><a href="more-info.html">More Info</a></li>
+<li><a href="install.html">Install</a></li>
+<li><a href="quick-markdown-example.html">Quick Markdown Example</a></li>
+<li><a href="rationale-and-benefits.html">Rationale and Benefits</a></li>
+<li><a href="authoring-tips.html">Authoring Tips</a></li>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="changes.html">Changes</a></li>
+<li><a href="TODO.html">TODO</a></li>
+</ul>
+
+</div>
+
+<div id="article-box">
+
+<div id="header-nav-bar">
+←prev | <a href="more-info.html">next→</a>
+</div>
+
+<div id="article-content">
+<header>
+<h1 class="title">Rippledoc</h1>
+<p class="author">John Gabriele</p>
+<p class="date">2016-10</p>
+</header>
+<p><strong>A particularly easy-to-use doc processing tool.</strong></p>
+<p>Rippledoc is a command-line program which generates easily-navigable html from a bunch of Markdown-formatted text files. That is, it turns:</p>
+<pre><code>doc/
+    index.md
+    changes.md
+    tutorial.md
+    mumble/
+        frob.md</code></pre>
+<p>into something like:</p>
+<pre><code>doc/
+    index.md
+    index.html
+    changes.md
+    changes.html
+    tutorial.md
+    tutorial.html
+    mumble/
+        frob.md
+        frob.html</code></pre>
+<p>Rippledoc requires nearly zero configuration. You just run it in a directory containing Markdown-formatted text files (see <a href="more-info.html">more info</a> for the few rules you’ve got to follow) and it does the rest.</p>
+<p>The main benefits of using Rippledoc rather than just having users view your docs directly on a site like GitLab or GitHub are:</p>
+<ul>
+<li>the docs resulting from Rippledoc are ordered (you can customize the order in your (autogenerated) toc.conf files), and</li>
+<li>they’re easily navigable. The side nav pane contains a full table of contents, and you can also click “next” and “prev” links to be taken you through every doc/chapter in your docs.</li>
+<li>you can customize the styling if you like.</li>
+</ul>
+<p>Under the hood, Rippledoc uses <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a> to do the markdown ➞ html conversion.</p>
+<p>You can find the source located at <a href="https://gitlab.com/uvtc/rippledoc" class="uri">https://gitlab.com/uvtc/rippledoc</a>.</p>
+<h1 id="os-compatibility">OS Compatibility</h1>
+<p>The author has not given even a passing thought to running this program on any OS other than GNU/Linux.</p>
+<h1 id="quick-usage">Quick Usage</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="bu">cd</span> ~/my-project/doc</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># Rippledoc needs an index.md and a _copyright file present, plus at</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># least one other doc file.</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="fu">touch</span> _copyright index.md tutorial.md  # changes.md, ... others?</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># Edit those files, then run Rippledoc here:</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="ex">rippledoc.py</span></a></code></pre></div>
+<p>and point your browser to <a href="file:///path/to/my-project/doc/index.html" class="uri">file:///path/to/my-project/doc/index.html</a> to see the results.</p>
+<blockquote>
+<p>Of course, <a href="http://www.unexpected-vortices.com/sw/rippledoc/index.html">this site you’re reading now</a> was generated using Rippledoc.</p>
+</blockquote>
+<p>To upload your docs to a server, you might use rsync:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="fu">rsync</span> -urv --delete /path/to/your-proj/doc you@remote:public_html/your-proj</a></code></pre></div>
+<p>That will put the local <code>doc</code> directory into the remote <code>your-proj</code> directory.</p>
+<h1 id="license">License</h1>
+<p>Copyright 2014–2018 John Gabriele</p>
+<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with this program. If not, see <a href="http://www.gnu.org/licenses/" class="uri">http://www.gnu.org/licenses/</a>.</p>
+
+</div> <!-- article-content -->
+
+<div id="footer-nav-bar">
+←prev | <a href="more-info.html">next→</a>
+</div>
+
+</div> <!-- article-box -->
+
+</div> <!-- trunk-box -->
+
+<div id="my-footer">
+<a href="http://www.unexpected-vortices.com/">John Gabriele</a>, 2014&ndash;2018<br/>
+<a href="index.md">Pandoc-Markdown source for this page</a><br/>
+(Docs processed by
+<a href="http://www.unexpected-vortices.com/sw/rippledoc/index.html">Rippledoc</a>.)
+</div> <!-- my-footer -->
+
+</div> <!-- main-outer-box -->
+</body>
+</html>
