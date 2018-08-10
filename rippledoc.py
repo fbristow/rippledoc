@@ -482,7 +482,7 @@ html_after = """
 styles_default_css_content = """\
 body {
     color: #222;
-    line-height: 140%;
+    line-height: 1.5;
     font-family: sans-serif;
     background-color: #fff;
 }
@@ -587,7 +587,6 @@ code {
 }
 
 pre {
-    line-height: 135%;
     background-color: #eee;
     border: 1px solid #ddd;
     padding-left: 6px;
