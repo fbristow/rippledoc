@@ -106,23 +106,23 @@ Here's a link to [a website](http://foo.bar), to a [local
 doc](local-doc.html), and to a [section heading in the current
 doc](#an-h2-header). Here's a footnote [^1].
 
-[^1]: Footnote text goes here.
+[^1]: Some footnote text.
 
 Tables can look like this:
 
-size  material      color
-----  ------------  ------------
-9     leather       brown
-10    hemp canvas   natural
-11    glass         transparent
+Name           Size  Material      Color
+------------- -----  ------------  ------------
+All Business      9  leather       brown
+Roundabout       10  hemp canvas   natural
+Cinderella       11  glass         transparent
 
-Table: Shoes, their sizes, and what they're made of
+Table: Shoes sizes, materials, and colors.
 
 (The above is the caption for the table.) Pandoc also supports
 multi-line tables:
 
 --------  -----------------------
-keyword   text
+Keyword   Text
 --------  -----------------------
 red       Sunsets, apples, and
           other red or reddish
@@ -141,15 +141,17 @@ Here's a definition list:
 
 apples
   : Good for making applesauce.
+
 oranges
   : Citrus!
+
 tomatoes
   : There's no "e" in tomatoe.
 
 Again, text is indented 4 spaces. (Put a blank line between each
-term/definition pair to spread things out more.)
+term and  its definition to spread things out more.)
 
-Here's a "line block":
+Here's a "line block" (note how whitespace is honored):
 
 | Line one
 |   Line too
@@ -169,6 +171,8 @@ which you wish to be displayed literally, ex.: \`foo\`, \*bar\*, etc.
 ~~~~~~
 
 And here's that text rendered as html:
+
+<!-- #################################################################### -->
 
 <div style="border: 2px dashed seagreen; padding: 10px;">
 
@@ -269,23 +273,23 @@ Here's a link to [a website](http://foo.bar), to a [local
 doc](local-doc.html), and to a [section heading in the current
 doc](#an-h2-header). Here's a footnote [^1].
 
-[^1]: Footnote text goes here.
+[^1]: Some footnote text.
 
 Tables can look like this:
 
-size  material      color
-----  ------------  ------------
-9     leather       brown
-10    hemp canvas   natural
-11    glass         transparent
+Name           Size  Material      Color
+------------- -----  ------------  ------------
+All Business      9  leather       brown
+Roundabout       10  hemp canvas   natural
+Cinderella       11  glass         transparent
 
-Table: Shoes, their sizes, and what they're made of
+Table: Shoes sizes, materials, and colors.
 
 (The above is the caption for the table.) Pandoc also supports
 multi-line tables:
 
 --------  -----------------------
-keyword   text
+Keyword   Text
 --------  -----------------------
 red       Sunsets, apples, and
           other red or reddish
@@ -304,15 +308,17 @@ Here's a definition list:
 
 apples
   : Good for making applesauce.
+
 oranges
   : Citrus!
+
 tomatoes
   : There's no "e" in tomatoe.
 
 Again, text is indented 4 spaces. (Put a blank line between each
-term/definition pair to spread things out more.)
+term and  its definition to spread things out more.)
 
-Here's a "line block":
+Here's a "line block" (note how whitespace is honored):
 
 | Line one
 |   Line too

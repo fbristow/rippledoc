@@ -1,9 +1,17 @@
 % Changes
 % John Gabriele
 
+# v2018-08-11
+
+  * If there's no index.md, but there's a ../README.md, use that
+    README as an index.md.
+  * Updated Rippledoc's docs to reflect that change, plus a few
+    more minor improvements.
+
+
 # v2018-07-20
 
-  * Put it better side nav area. Removed all the sub-ToC files, which
+  * Put in better side nav area. Removed all the sub-ToC files, which
     also allowed removing clutter from the header/footer nav bars.
 
 

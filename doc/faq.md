@@ -9,17 +9,18 @@ See the [rationale page](rationale.html).
 
 **"Why use Markdown? Why not LaTeX, reST, moinmoin wiki syntax, etc?"**
 
-The main focus of Rippledoc is to be a very *easy* way to create your
-docs and make them available, no manual required. From "zero" to
-"docs" in no time flat. Markdown is, IMO, the easiest of the markup
-formats to read, and also very easy to write and to remember; and
+The main goal of Rippledoc is to assist in making docs as easy as
+possible to write and to contribute to --- no manual required. Aside
+from probably being the most widely known, Markdown is, IMO, the
+easiest of the markup formats to read, and also very easy to write and
+to remember; and
 [pandoc-markdown](http://pandoc.org/MANUAL.html#pandocs-markdown)
 tastefully adds what's missing from original Markdown and/or
 [CommonMark](http://commonmark.org/).
 
 
 
-**"But my favorite language uses {fave-markup}!"**
+**"But my favorite programming language uses {fave-markup}!"**
 
 Documentation often benefits greatly when *others* also contribute to
 it. Good writers may not know your markup format of choice, and may
@@ -32,22 +33,21 @@ minutes](quick-markdown-example.html)).
 **"But Rippledoc is written in Python! My project uses {other-language}!"**
 
 Rippledoc is a fairly simple program which happens to be written in
-Python but which could easily be rewritten in any number of other
+Python and which could easily be rewritten in any number of other
 languages.
 
-Under the hood, Rippledoc uses
-[Pandoc](http://johnmacfarlane.net/pandoc/) to do the heavy
-lifting. Although Pandoc can translate between various markup formats,
-Rippledoc is only using it to convert Markdown to HTML. There are many
-other Markdown implementations that you could use if you wanted to
-(most languages tend to have at least one implementation), though they
-might not have the excellent enhancements that Pandoc provides. See
-[CommonMark](http://commonmark.org/) for more info on Markdown and its
-various and sundry implementations.
+Under the hood, Rippledoc uses [Pandoc](http://pandoc.org/) to do the
+heavy lifting. Although Pandoc can translate between various markup
+formats, Rippledoc is only using it to convert Markdown to HTML. There
+are many other Markdown implementations that you could use if you
+wanted to (most languages tend to have at least one implementation),
+though they might not have the excellent enhancements that Pandoc
+provides. See [CommonMark](http://commonmark.org/) for more info on
+Markdown and various implementations of it.
 
 
 
-**"Why use Pandoc under the hood? Why not {my-favorite-markdown-implementation}?"**
+**"Why use Pandoc under the hood and not {my-favorite-markdown-implementation}?"**
 
 Because Pandoc:
 
@@ -61,16 +61,45 @@ Because Pandoc:
 
 
 **"Bah, my project is hosted on GitLab (or similar); why not just let
-users read the docs there, since gitlab automatically renders .md
+users read the docs there, since GitLab automatically renders .md
 files as html?"**
 
 Mainly because:
 
-  * Pandoc (and thus Rippledoc) supports a number of very useful extensions
-    which GitLab's markdown processor may not (see previous FAQ item).
-  * Rippledoc provides excellent navigation links, and lets you order
-    your docs as well.
+  * Pandoc (used by Rippledoc) supports a number of very useful
+    syntactic extensions which GitLab's markdown processor may not
+    (see previous FAQ item).
+  * Rippledoc provides excellent navigation links, a table of
+    contents, and lets you order your docs.
   * With Rippledoc you can customize styling.
+
+
+**"Wait. Why use Rippledoc when I can just put up (or enable) a wiki?"**
+
+Because:
+
+  * You usually have to edit them on the web, rather than in your
+    text editor. Potential contributors who are skilled writers
+    will not want to make substantial doc contributions via a web
+    form.
+  * Thoughtful writers will often not want to contribute to a wiki,
+    since their careful writing can so easily be wrecked-up by a
+    heedless hit-and-run editor.
+  * Wikis require management (sometimes vigilant management).
+    This includes removing spam, but also intervening when editors
+    disagree on eachother's changes.
+  * Wikis have a way of becoming disorganized while simultaneously
+    becoming out of date. And once that happens no one wants to
+    touch them.
+  * They very likely do not support the nice syntactic markdown
+    extensions that Pandoc (used by Rippledoc) does.
+  * They provide no nice table of contents nor easy navigation links.
+  * If you want to move your docs at some point, it's not always
+    easy to extract your doc files from wikis or to migrate to another
+    wiki.
+  * Changes to the wiki generally are not connected with changes to
+    your source code repo.
+
 
 
 **"Why does Rippledoc process all md files every time I run it?"**

@@ -33,6 +33,8 @@ full_ordered_list_of_paths = []
 # Needed for for prev/next links.
 full_ordered_list_of_fnms = []
 
+using_upper_readme = False
+
 def main():
     print(f"================ Rippledoc, version {VERSION} ================")
 
@@ -58,21 +60,32 @@ def main():
 
         Exiting.
         """))
-        sys.exit(0)
-
-    if not os.path.exists("index.md"):
+        sys.exit(0)        
+        
+    if (not os.path.exists("index.md")) and (not os.path.exists("../README.md")):
         print(mlsl("""\
-        [**] Unable to find an "index.md" file here. Please make
-        [**] sure you're running this program in the root (top-level)
-        [**] of your doc directory, and that there's an index.md file
-        [**] present here. Exiting.
+        [**] Unable to find an "index.md" file here, nor a "README.md"
+        [**] file in the directory above. Please make sure you're
+        [**] running this program in the root (top-level) of your doc
+        [**] directory, and that there's an index.md file present here
+        [**] or else a ../README.md file present. Exiting.
         """))
         sys.exit(0)
-
-    global project_name
-    project_name = get_title_from('./index.md')
-    print(f"""Generating docs for "{project_name}" ...""")
-
+        
+    if os.path.exists("index.md") and os.path.exists("../README.md"):
+        ans = input(mlsl("""\
+        Found both an index.md file here, as well as a ../README.md.
+        Often there's just one or the other. Continue and use
+        index.md? (y/n): """))
+        if ans == 'y':
+            pass
+        elif ans == 'n':
+            print("Ok. Exiting.")
+            sys.exit(0)
+        else:
+            print("I don't know what that means. Exiting.")
+            sys.exit(0)
+        
     if not os.path.exists("_copyright"):
         print(mlsl("""\
         [**] Unable to find a "_copyright" file here. Please make
@@ -80,11 +93,33 @@ def main():
         [**] of your doc directory, and that there's a _copyright file
         [**] present here. This file typically contains something like:
         [**]
-        [**]     Copyright 2018 Moe Ghoul
+        [**]     Copyright 2016–2018 Moe Ghoul
         [**]
         [**] (including raw HTML is ok too). Exiting.
         """))
         sys.exit(0)
+
+    if os.path.exists("README.md"):
+        print(mlsl("""\
+        [**] Odd. Found a README.md file in this doc directory. Maybe you
+        [**] meant to place it in the directory above this one (your main
+        [**] project directory), or maybe you meant to name it "index.md"
+        [**] instead? Please check it out. Exiting."""))
+        sys.exit(0)
+
+    print("Checking file and directory names for weirdness...")
+    check_file_and_dir_names()
+
+    global using_upper_readme
+    if (not os.path.exists("index.md")) and os.path.exists("../README.md"):
+        print("No index.md file here, but found a ../README.md, so using that...")
+        using_upper_readme = True
+        with io.open("index.md", "w") as f:
+            f.write(io.open("../README.md").read())
+        
+    global project_name
+    project_name = get_title_from('./index.md')
+    print(f"""Generating docs for "{project_name}" ...""")
 
     global copyright_info
     copyright_info = io.open("_copyright").read().strip()
@@ -93,9 +128,6 @@ def main():
         print("""Didn't find a styles.css file here. Creating one...""")
         with io.open("styles.css", "w") as sty_file:
             sty_file.write(styles_default_css_content)
-
-    print("Checking file and directory names for weirdness...")
-    check_file_and_dir_names()
 
     print("Noting any dirs to skip (i.e., those with no .md files in or below them)...")
     # These may be dirs containing only image files or what have you.
@@ -121,6 +153,10 @@ def main():
     print("Transmogrifying .md files into html files...")
     process_all_md_files()
 
+    if using_upper_readme:
+        print("Removing temporary faux ./index.md file (from ../README.md)...")
+        os.remove("index.md")
+    
     print("Done.")
 
 
@@ -135,26 +171,6 @@ def mlsl(s):
         out.append(
             line.replace(' ' * spaces_to_remove, '', 1))
     return "\n".join(out)
-
-
-def get_title_from_doc(fnm):
-    lines = io.open(fnm).readlines()
-    if not lines:
-        print(mlsl(f"""\
-        [**] Found {fnm} but it's empty. Please add a title to it
-        [**] and some content as well. Exiting.
-        """))
-        sys.exit(0)
-    line = lines[0]
-    if not line.startswith("% "):
-        print(mlsl(f"""\
-        [**] The first line of "{fnm}", doesn't start with "% ",
-        [**] (indicating its title) as any well-formatted pandoc-markdown
-        [**] file should. Please check it out. Exiting.
-        """))
-        sys.exit(0)
-    title = line[1:].strip()
-    return title
 
 
 def check_file_and_dir_names():
@@ -226,12 +242,20 @@ def get_title_from(fnm):
     line = None
     with io.open(fnm) as f:
         line = f.readline()
+
+    upper_readme_flag = False
+    if fnm == './index.md' and using_upper_readme:
+        fnm = '../README.md' # For possible error message below.
+        upper_readme_flag = True
+
     if not line or not line.startswith('% '):
         print(mlsl(f"""\
         [**] Problem with {fnm}. It doesn't appear to have a
         [**] title (as in, "% Some Title" as its first line). Please
         [**] remedy the situation. Exiting.
         """))
+        if upper_readme_flag:
+            os.remove('index.md')
         sys.exit()
     return line[2:].strip()
 
@@ -483,7 +507,7 @@ styles_default_css_content = """\
 body {
     color: #222;
     line-height: 1.5;
-    font-family: sans-serif;
+    font-family: "Clear Sans", sans-serif;
     background-color: #fff;
 }
 
