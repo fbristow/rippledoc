@@ -27,7 +27,7 @@ But without good docs you won't have many happy users; and without
 
 Rippledoc aims to remedy the situation. Here's how:
 
- #. It's strikingly easy to use. You just create a `doc` directory,
+ #. It's particularly easy to use. You just create a `doc` directory,
     write some docs as simple text files, then run the script. Except
     for creating a "_copyright" file, there's *zero* configuration
     required (you can optionally change the order your docs appear in

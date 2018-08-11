@@ -1,7 +1,7 @@
 Rippledoc
 =========
 
-*A strikingly easy-to-use doc processing tool.*
+*A particularly easy-to-use doc processing tool.*
 
 Find the Rippledoc docs rendered in lovely html at
 <http://www.unexpected-vortices.com/sw/rippledoc/index.html>.
@@ -13,7 +13,7 @@ running this program on any OS other than GNU/Linux.**
 Copyright and License
 ---------------------
 
-Copyright 2014--2018 John Gabriele <jgabriele@fastmail.fm>
+Copyright 2014–2018 John Gabriele <jgabriele@fastmail.fm>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -2,7 +2,7 @@
 % John Gabriele
 % 2018-08
 
-**A strikingly easy-to-use doc processing tool.**
+**A particularly easy-to-use doc processing tool.**
 
 Rippledoc is a command-line program which generates easily-navigable
 html from a bunch of Markdown-formatted text files. That is, it turns:
