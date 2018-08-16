@@ -1,6 +1,10 @@
 % More Info
 % John Gabriele
 
+Rippledoc is talkative. Just run it and it will tell you if you're
+missing something.
+
+
 What it Expects
 ===============
 
@@ -13,12 +17,12 @@ Rippledoc has a few rules:
     and processes filenames ending in ".md"; notably, it ignores
     ".txt" files.
 
-  * You must have either a README.md file in the directory above this
-    one, or else have an index.md file here. Plus you must have at
-    least one other .md file here.
+  * You must have either an index.md file in your doc directory, or
+    else a README.md file in the directory above it. Plus at least one
+    other .md file in the doc directory.
 
-  * Your doc files (../README.md too, if you're using it in place of
-    an index.md here) must begin with a header block supplying a
+  * Your doc files (../README.md too if you're using it in place of
+    an index.md here) must begin with a "header block" supplying a
     title, for example:
 
         % Title for this Doc
@@ -57,8 +61,8 @@ markdown-formatted doc files. It also generates:
     under it.
 
 A given generated html file resides in the same directory as its
-source .md file (you'll see a link directly to the .md file in the
-corresponding html page's footer).
+corresponding source .md file (you'll see a link directly to the .md
+file in the corresponding html page's footer).
 
 To rearrange the order in which docs are listed in the table of
 contents, edit any of the toc.conf files and re-run rippledoc.py.

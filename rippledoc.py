@@ -17,9 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Rippledoc.  If not, see <http://www.gnu.org/licenses/>."
 
-import os, os.path, sys, subprocess, io, re
+import os, os.path, sys, subprocess, io, re, shutil
 
-VERSION = "2018-08-11"
+VERSION = "2018-08-15"
 
 project_name = None
 copyright_info = None
@@ -33,59 +33,45 @@ full_ordered_list_of_paths = []
 # Needed for for prev/next links.
 full_ordered_list_of_fnms = []
 
-using_upper_readme = False
+using_readme_as_index = False
+
+usage_msg = """\
+You run this program in the root (top-level) of your
+documentation directory to generate easily-navigable HTML files
+from your (pandoc-)markdown-formatted doc files. For more info,
+see the docs this program came with, or else its docs online at
+<http://www.unexpected-vortices.com/sw/rippledoc/index.html>.
+
+Usage:
+
+    rippledoc.py
+
+    rippledoc.py --readme-is-index  # Will copy ../README.md to
+                                    # ./index.md. Any existing
+                                    # ./index.md will be over-
+                                    # written.
+
+To remove all traces of this program having been used in your docs
+directory, delete:
+
+  * all toc.conf files
+  * the styles.css and _copyright files
+  * all generated .html files
+  * if you used `--readme-is-index`, the copied-in ./index.md file
+    as well.
+
+Exiting.
+"""
+
+available_options = ["--readme-is-index"]
 
 def main():
     print(f"================ Rippledoc, version {VERSION} ================")
 
-    if len(sys.argv) == 2 and (sys.argv[1] == '-h' or sys.argv[1] == '--help'):
-        print(mlsl("""\
-        You run this program in the root (top-level) of your
-        documentation directory to generate easily-navigable HTML files
-        from your (pandoc-)markdown-formatted doc files. For more info,
-        see the docs this program came with, or else its docs online at
-        <http://www.unexpected-vortices.com/sw/rippledoc/index.html>.
-
-        Usage:
-
-            rippledoc.py
-            rippledoc.py -h|--help
-
-        To remove all traces of this program having been used in your docs
-        directory, delete:
-
-          * all toc.conf files
-          * the styles.css and _copyright files
-          * all generated .html files
-
-        Exiting.
-        """))
-        sys.exit(0)        
-        
-    if (not os.path.exists("index.md")) and (not os.path.exists("../README.md")):
-        print(mlsl("""\
-        [**] Unable to find an "index.md" file here, nor a "README.md"
-        [**] file in the directory above. Please make sure you're
-        [**] running this program in the root (top-level) of your doc
-        [**] directory, and that there's an index.md file present here
-        [**] or else a ../README.md file present. Exiting.
-        """))
+    if len(sys.argv) > 1 and (sys.argv[1] not in available_options):
+        print(usage_msg)
         sys.exit(0)
-        
-    if os.path.exists("index.md") and os.path.exists("../README.md"):
-        ans = input(mlsl("""\
-        Found both an index.md file here, as well as a ../README.md.
-        Often there's just one or the other. Continue and use
-        index.md? (y/n): """))
-        if ans == 'y':
-            pass
-        elif ans == 'n':
-            print("Ok. Exiting.")
-            sys.exit(0)
-        else:
-            print("I don't know what that means. Exiting.")
-            sys.exit(0)
-        
+
     if not os.path.exists("_copyright"):
         print(mlsl("""\
         [**] Unable to find a "_copyright" file here. Please make
@@ -93,7 +79,7 @@ def main():
         [**] of your doc directory, and that there's a _copyright file
         [**] present here. This file typically contains something like:
         [**]
-        [**]     Copyright 2016–2018 Moe Ghoul
+        [**]     Copyright 2016–2018 Your Name
         [**]
         [**] (including raw HTML is ok too). Exiting.
         """))
@@ -107,16 +93,55 @@ def main():
         [**] instead? Please check it out. Exiting."""))
         sys.exit(0)
 
+    global using_readme_as_index
+    if len(sys.argv) == 2 and sys.argv[1] == '--readme-is-index':
+        using_readme_as_index = True
+
+    if using_readme_as_index and (not os.path.exists("../README.md")):
+        print(mlsl("""\
+        [**] You've opted to use ../README.md in place of a ./index.md file,
+        [**] but there doesn't appear to be a ../README.md file present.
+        [**] Exiting.
+        """))
+        sys.exit(0)
+
+    # We already found a _copyright file here, so we know we're in the
+    # top level of the doc dir.
+    if (not using_readme_as_index) and (not os.path.exists("./index.md")):
+        print(mlsl("""\
+        [**] Unable to find an "index.md" file here. You either need one
+        [**] present, or else must have a ../README.md file present and
+        [**] pass `--readme-is-index` (which will cause Rippledoc to copy
+        [**] it here as ./index.md). Exiting.
+        """))
+        sys.exit(0)
+
+    # In case you previously ran with `--readme-is-index`, and we copied
+    # the ../README.md to ./index.md, but then you forgot to pass
+    # `--readme-is-index` on a subsequent run.
+    if (not using_readme_as_index) and os.path.exists("../README.md") and \
+       os.path.exists("./index.md"):
+        res = input(mlsl("""\
+        [?] Found a ../README.md file, as well as an ./index.md file,
+        [?] and also noticed that you didn't pass the `--readme-is-index`
+        [?] option. Continue, using ./index.md? y/n: """))
+        if res == 'y':
+            print("Ok, proceeding...")
+            pass
+        elif res == 'n':
+            print("Ok, exiting.")
+            sys.exit(0)
+        else:
+            print("I didn't understand your reply. Exiting.")
+            sys.exit(0)
+
     print("Checking file and directory names for weirdness...")
     check_file_and_dir_names()
 
-    global using_upper_readme
-    if (not os.path.exists("index.md")) and os.path.exists("../README.md"):
-        print("No index.md file here, but found a ../README.md, so using that...")
-        using_upper_readme = True
-        with io.open("index.md", "w") as f:
-            f.write(io.open("../README.md").read())
-        
+    if using_readme_as_index:
+        print("As requested, copying ../README.md → ./index.md...")
+        shutil.copy("../README.md", "./index.md")
+
     global project_name
     project_name = get_title_from('./index.md')
     print(f"""Generating docs for "{project_name}" ...""")
@@ -153,10 +178,6 @@ def main():
     print("Transmogrifying .md files into html files...")
     process_all_md_files()
 
-    if using_upper_readme:
-        print("Removing temporary faux ./index.md file (from ../README.md)...")
-        os.remove("index.md")
-    
     print("Done.")
 
 
@@ -242,20 +263,14 @@ def get_title_from(fnm):
     line = None
     with io.open(fnm) as f:
         line = f.readline()
-
-    upper_readme_flag = False
-    if fnm == './index.md' and using_upper_readme:
-        fnm = '../README.md' # For possible error message below.
-        upper_readme_flag = True
-
+    if fnm == './index.md' and using_readme_as_index:
+        fnm = '../README.md' # For potential error message below.
     if not line or not line.startswith('% '):
         print(mlsl(f"""\
-        [**] Problem with {fnm}. It doesn't appear to have a
-        [**] title (as in, "% Some Title" as its first line). Please
-        [**] remedy the situation. Exiting.
+        [**] Problem found with {fnm}.
+        [**] It doesn't appear to have a proper title (as in, "% Some Title"
+        [**] as its first line). Please remedy the situation. Exiting.
         """))
-        if upper_readme_flag:
-            os.remove('index.md')
         sys.exit()
     return line[2:].strip()
 
@@ -268,7 +283,9 @@ def process_dirs_create_toc_conf_files():
             md_fnms.remove('toc.md')
         if this_dir == '.':
             md_fnms.remove('index.md')
-        dirs_here_for_toc = [d for d in dirs_here if os.path.join(this_dir, d) not in dirs_to_skip]
+        dirs_here_for_toc = [
+            d for d in dirs_here if os.path.join(this_dir, d) not in dirs_to_skip
+        ]
         if is_at_or_under_skipped_dir(this_dir):
             if os.path.exists(toc_fnm):
                 print(f"  * Found a derelict toc.conf file in {this_dir}. Removing it.")
@@ -276,7 +293,8 @@ def process_dirs_create_toc_conf_files():
             continue
         if os.path.exists(toc_fnm):
             # Check that its contents match what's actually here.
-            toc_conf_content = io.open(os.path.join(this_dir, 'toc.conf')).read().strip().splitlines()
+            toc_conf_content = io.open(
+                os.path.join(this_dir, 'toc.conf')).read().strip().splitlines()
             s_toc = set(toc_conf_content)
             s_found = set(md_fnms + dirs_here_for_toc)
             s_extra = s_found - s_toc
@@ -414,8 +432,8 @@ def make_toc_md_list_for(md_fnm):
 
 
 def get_nav_bar_content(md_fnm):
-    pr, nx = make_prev_next_links(md_fnm)
-    nav_bar = f"""{pr} | {nx}"""
+    prv, nxt = make_prev_next_links(md_fnm)
+    nav_bar = f"""<div>{prv}</div><div class="nav-bar-push">{nxt}</div>"""
     return nav_bar
 
 
@@ -519,7 +537,6 @@ body {
     font-weight: bold;
     font-size: large;
     padding: 4px 10px 10px 10px;
-    border-bottom: 1px solid #ddd;
 }
 
 #my-header a {
@@ -543,8 +560,17 @@ body {
 }
 
 #header-nav-bar, #footer-nav-bar {
-    background-color: #eee;
     font-size: small;
+    display: flex;
+}
+
+.nav-bar-push {
+    margin-left: auto;
+}
+
+#header-nav-bar {
+    padding: 6px 6px 8px 10px;
+    border-bottom: 1px solid #ddd;
 }
 
 #article-content {
@@ -562,12 +588,9 @@ nav#TOC {
     border: 1px solid #cedec4;
 }
 
-#header-nav-bar {
-    padding: 6px 6px 8px 10px;
-}
-
 #footer-nav-bar {
     padding: 6px 6px 10px 10px;
+    border-top: 1px solid #ddd;
 }
 
 caption {
@@ -639,7 +662,6 @@ blockquote code, blockquote pre {
     padding: 10px;
     font-style: italic;
     font-size: x-small;
-    border-top: 1px solid #ddd;
 }
 
 h1, h2, h3, h4, h5, h6 {

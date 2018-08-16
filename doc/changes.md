@@ -1,6 +1,13 @@
 % Changes
 % John Gabriele
 
+# v2018-08-15
+
+  * Instead of using heuristics, added `--readme-is-index` option.
+  * Updated docs. Removed index.md, using ../README.md instead.
+  * Made prev/next links spread out across nav header and footer.
+  * Minor styling updates.
+
 # v2018-08-11
 
   * If there's no index.md, but there's a ../README.md, use that
