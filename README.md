@@ -48,7 +48,7 @@ does the rest.
 
 Find the Rippledoc docs rendered in lovely html at
 <http://www.unexpected-vortices.com/sw/rippledoc/index.html>. The
-source located at <https://gitlab.com/uvtc/rippledoc>.
+source is located at <https://gitlab.com/uvtc/rippledoc>.
 
 Under the hood, Rippledoc uses [Pandoc](http://pandoc.org/) to do the
 markdown ➞ html conversion.
