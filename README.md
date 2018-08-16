@@ -46,7 +46,7 @@ directory containing Markdown-formatted text files (see [more
 info](more-info.html) for the few rules you've got to follow) and it
 does the rest.
 
-Find the Rippledoc docs rendered in lovely html at
+Find the full Rippledoc docs rendered in lovely html at
 <http://www.unexpected-vortices.com/sw/rippledoc/index.html>. The
 source is located at <https://gitlab.com/uvtc/rippledoc>.
 
