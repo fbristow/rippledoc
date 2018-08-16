@@ -4,9 +4,6 @@
 
 **A particularly easy-to-use doc processing tool.**
 
-Find the Rippledoc docs rendered in lovely html at
-<http://www.unexpected-vortices.com/sw/rippledoc/index.html>.
-
 Rippledoc is a command-line program that generates easily-navigable
 html from a bunch of Markdown-formatted text files (it ripples down
 into subdirectories looking for md files). That is, it turns:
@@ -49,8 +46,9 @@ directory containing Markdown-formatted text files (see [more
 info](more-info.html) for the few rules you've got to follow) and it
 does the rest.
 
-You can find the source located at
-<https://gitlab.com/uvtc/rippledoc>.
+Find the Rippledoc docs rendered in lovely html at
+<http://www.unexpected-vortices.com/sw/rippledoc/index.html>. The
+source located at <https://gitlab.com/uvtc/rippledoc>.
 
 Under the hood, Rippledoc uses [Pandoc](http://pandoc.org/) to do the
 markdown ➞ html conversion.
