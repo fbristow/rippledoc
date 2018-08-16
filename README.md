@@ -6,7 +6,7 @@
 
 Rippledoc is a command-line program that generates easily-navigable
 html from a bunch of Markdown-formatted text files (it ripples down
-into subdirectories looking for md files). That is, it turns:
+into subdirectories looking for .md files). That is, it turns:
 
 ~~~
 doc/
