@@ -4,8 +4,8 @@
 Prerequisites
 =============
 
-Rippledoc requires Python v3.6+.  You'll also need to have
-[Pandoc](http://johnmacfarlane.net/pandoc/) installed. Instructions
+Rippledoc requires Python v3.6+.  You'll also need to have a fairly
+recent version of [Pandoc](http://pandoc.org/) installed. Instructions
 for installing Pandoc are on its website.
 
 
