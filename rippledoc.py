@@ -665,7 +665,6 @@ blockquote code, blockquote pre {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: sans-serif;
     color: #567EB5;
 }
 
