@@ -4,9 +4,12 @@
 
 **A particularly easy-to-use doc processing tool.**
 
-Rippledoc is a command-line program that generates easily-navigable
-html from a bunch of Markdown-formatted text files (it ripples down
-into subdirectories looking for .md files). That is, it turns:
+Rippledoc is a command-line program that uses
+[Pandoc](http://pandoc.org/) to generate easily-navigable HTML from a
+bunch of Markdown-formatted text files (it ripples down into
+subdirectories looking for .md files).
+
+That is, it turns:
 
 ~~~
 doc/
@@ -26,8 +29,8 @@ doc/
     index.html
     changes.md
     changes.html
-    styles.css # <-- additionally created by Rippledoc
-    toc.conf   # <-- additionally created by Rippledoc
+    styles.css  # <-- additionally created by Rippledoc
+    toc.conf    # <-- additionally created by Rippledoc
     getting-started.md
     getting-started.html
     examples/
@@ -59,10 +62,12 @@ Purpose
 
 The main goals for Rippledoc are:
 
-  * make it as easy as possible to create and write nice-looking,
-    ordered, easily-navigable docs
-  * make it as easy as possible for others to contribute to your docs
-
+  * make it as easy as possible to create, write, and manage
+    nice-looking, ordered, easily-navigable docs
+  * make it as easy as possible for others to contribute to your
+    docs
+  * not tie you to any one particular doc processing tool (including
+    this one)
 
 
 OS Compatibility
@@ -77,13 +82,12 @@ Quick Usage
 ===========
 
 ~~~bash
-cd ~/my-project/doc
-# Rippledoc needs either a ../README.md or an ./index.md.
-# It also needs a _copyright file present, plus at least one
-# other doc file.
-touch _copyright index.md getting-started.md  # changes.md, ... others?
-# Edit those files, then run Rippledoc.
-rippledoc.py
+cd path/to/my-project
+touch README.md
+cd docs
+touch _copyright getting-started.md  # tutorial.md, changes.md, ...
+# Edit those files, then run Rippledoc, telling it to use ../README.md.
+rippledoc.py --readme-is-index
 ~~~
 
 and point your browser to <file:///path/to/my-project/doc/index.html>
