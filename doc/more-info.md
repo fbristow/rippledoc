@@ -14,7 +14,7 @@ Rippledoc has a few rules:
     Markdown-formatted (see [Pandoc's
     Markdown](http://pandoc.org/MANUAL.html#pandocs-markdown))
     and their filenames must end in ".md". Rippledoc only cares about
-    and processes filenames ending in ".md"; notably, it ignores
+    and processes filenames ending in ".md" --- notably, it ignores
     ".txt" files.
 
   * You must have either an index.md file in your doc directory, or

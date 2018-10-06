@@ -3,7 +3,7 @@
 
 If you're not sure where to begin, do this:
 
-~~~
+~~~bash
 cd my-project
 touch README.md
 mkdir doc

@@ -84,7 +84,7 @@ Quick Usage
 ~~~bash
 cd path/to/my-project
 touch README.md
-cd docs
+cd doc
 touch _copyright getting-started.md  # tutorial.md, changes.md, ...
 # Edit those files, then run Rippledoc, telling it to use ../README.md.
 rippledoc.py --readme-is-index
