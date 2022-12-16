@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # Copyright 2018 John Gabriele <jgabriele@fastmail.fm>
+#           2022 Franklin Bristow <fbristow@gmail.com>
 #
 # This file constitutes the Rippledoc program.
 #
@@ -18,8 +19,9 @@
 # along with Rippledoc.  If not, see <http://www.gnu.org/licenses/>."
 
 import os, os.path, sys, subprocess, io, re, shutil
+import panflute as pf
 
-VERSION = "2018-08-15"
+VERSION = "2022-12-15"
 
 project_name = None
 copyright_info = None
@@ -260,19 +262,16 @@ def populate_fnm_to_doc_title():
 
 
 def get_title_from(fnm):
-    line = None
-    with io.open(fnm) as f:
-        line = f.readline()
+    title = ''
     if fnm == './index.md' and using_readme_as_index:
         fnm = '../README.md' # For potential error message below.
-    if not line or not line.startswith('% '):
-        print(mlsl(f"""\
-        [**] Problem found with {fnm}.
-        [**] It doesn't appear to have a proper title (as in, "% Some Title"
-        [**] as its first line). Please remedy the situation. Exiting.
-        """))
-        sys.exit()
-    return line[2:].strip()
+    with open (fnm) as markdown:
+        doc = pf.convert_text(markdown.read(), standalone=True)
+        try:
+            title = doc.get_metadata('title')
+        except:
+            title = ''
+    return title
 
 
 def process_dirs_create_toc_conf_files():
@@ -415,7 +414,12 @@ def make_toc_md_list_for(md_fnm):
         is_a_dir = not fnm.endswith(".md")
 
         if is_a_dir:
-            title = os.path.basename(fnm) + "/"
+            try:
+                with open(f"{fnm}/meta.yml") as meta:
+                    dir_title = pf.convert_text(meta.read(), standalone=True)
+                    title = dir_title.get_metadata('title')
+            except:
+                title = os.path.basename(fnm) + "/"
         else:
             title = fnm_to_doc_title[fnm]
             html_fnm = fnm[:-2] + "html"
